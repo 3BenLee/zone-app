@@ -1,13 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import ZoneGrid from './zone-grid';
+import { calculateZones } from 'training-zone-calculator';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 export default function Index() {
+
+  const [ ftp, setFtp ] = useState();
+  const [ showGrid, setShowGrid ] = useState(false);
+
+  const renderZoneGrid = () => {
+
+    const useStyles = makeStyles(theme => ({
+      root: {
+        flexGrow: 1,
+      },
+      paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+        background: '#98B0B9',
+      },
+    }));
+    const classes = useStyles();
+
+    const finalResults = calculateZones(ftp).map((zone, index) => (
+      <Grid key={index} item xs={4}>
+        <Paper className={classes.paper}>{zone}</Paper>
+      </Grid>
+    ));
+    console.log('calculate fired')
+    return (
+      <div className={classes.root}>
+        <Grid container spacing={3}>
+          {finalResults}
+        </Grid>
+      </div>
+    );
+  }
+
   return (
     <Container maxWidth="sm">
       <Box my={4}>
@@ -18,14 +55,16 @@ export default function Index() {
           id="outlined-simple-start-adornment"
           variant="outlined"
           label="FTP"
+          value={ftp}
+          onChange={e => setFtp(e.target.value, console.log('set fired'))}
           InputProps={{
-            startAdornment: <InputAdornment position="start">Watts</InputAdornment>,
+            startAdornment: <InputAdornment position="start">Ben</InputAdornment>,
           }}
         />
-        <Button variant="outlined" color="primary">
+        <Button variant="outlined" color="primary" onClick={() => setShowGrid(!showGrid, console.log('grid fired'))}>
           Get Zones
         </Button>
-      <ZoneGrid />
+        {showGrid && renderZoneGrid()}
       </Box>
     </Container>
   );
