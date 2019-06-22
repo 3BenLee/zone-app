@@ -12,38 +12,43 @@ import Paper from '@material-ui/core/Paper';
 
 export default function Index() {
 
+  /** State */
   const [ ftp, setFtp ] = useState();
   const [ showGrid, setShowGrid ] = useState(false);
 
-  const renderZoneGrid = () => {
+  /** Material UI styles */
+  const useStyles = makeStyles(theme => ({
+    root: {
+      flexGrow: 1,
+    },
+    paper: {
+      padding: theme.spacing(2),
+      textAlign: 'center',
+      color: theme.palette.text.secondary,
+      background: '#98B0B9',
+    },
+  }));
+  const classes = useStyles();
 
-    const useStyles = makeStyles(theme => ({
-      root: {
-        flexGrow: 1,
-      },
-      paper: {
-        padding: theme.spacing(2),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-        background: '#98B0B9',
-      },
-    }));
-    const classes = useStyles();
-
-    const finalResults = calculateZones(ftp).map((zone, index) => (
+  /** Logic and Handlers */
+  let finalResults;
+  if (ftp > 0) {
+    finalResults = showGrid ? calculateZones(ftp).map((zone, index) => (
       <Grid key={index} item xs={4}>
         <Paper className={classes.paper}>{zone}</Paper>
       </Grid>
-    ));
-    console.log('calculate fired')
-    return (
-      <div className={classes.root}>
-        <Grid container spacing={3}>
-          {finalResults}
-        </Grid>
-      </div>
-    );
+    )) : null
   }
+
+  const handleShowGrid = showGrid => event => {
+    setShowGrid(!showGrid);
+  }
+
+  const handleReset = showGrid => event => {
+    setShowGrid(!showGrid);
+    setFtp('');
+  };
+
 
   return (
     <Container maxWidth="sm">
@@ -61,10 +66,21 @@ export default function Index() {
             startAdornment: <InputAdornment position="start">Ben</InputAdornment>,
           }}
         />
-        <Button variant="outlined" color="primary" onClick={() => setShowGrid(!showGrid, console.log('grid fired'))}>
+        <Button variant="outlined" color="primary" onClick={handleShowGrid(showGrid)}>
           Get Zones
         </Button>
-        {showGrid && renderZoneGrid()}
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={handleReset(!showGrid)}
+        >
+          Reset
+        </Button>
+        <div className={classes.root}>
+          <Grid container spacing={3}>
+            {finalResults}
+          </Grid>
+        </div>
       </Box>
     </Container>
   );
