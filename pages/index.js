@@ -53,9 +53,7 @@ export default function Index() {
   return (
     <Container maxWidth="sm">
       <Box my={4}>
-        <Typography display='inline'>Let's</Typography>
-        <img display='inline' src='.images/icons8-taco-48.png' alt="logo"/>
-        <Typography display='inline'>Bout Watts</Typography>
+        <Typography display='inline'>Watts the Matter?</Typography>
         <TextField
           id="outlined-simple-start-adornment"
           variant="outlined"
