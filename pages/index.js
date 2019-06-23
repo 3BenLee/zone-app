@@ -9,17 +9,22 @@ import { calculateZones } from 'training-zone-calculator';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import ZoneDataGrid from './zoneDataGrid';
 
 export default function Index() {
 
   /** State */
-  const [ ftp, setFtp ] = useState();
+  const [ ftp, setFtp ] = useState('');
   const [ showGrid, setShowGrid ] = useState(false);
 
   /** Material UI styles */
   const useStyles = makeStyles(theme => ({
+    box: {
+      marginTop: 0
+    },
     root: {
       flexGrow: 1,
+      background: '#333'
     },
     paper: {
       padding: theme.spacing(2),
@@ -27,6 +32,10 @@ export default function Index() {
       color: theme.palette.text.secondary,
       background: '#98B0B9',
     },
+    resetButton: {
+      marginTop: 25,
+      marginBottom: 50
+    }
   }));
   const classes = useStyles();
 
@@ -47,27 +56,28 @@ export default function Index() {
   const handleReset = showGrid => event => {
     setShowGrid(!showGrid);
     setFtp('');
-  };
-
+  }
 
   return (
-    <Container maxWidth="sm">
-      <Box my={4}>
-        <Typography display='inline'>Watts the Matter?</Typography>
+    <Container className={classes.root} maxWidth="sm">
+      <Box className={classes.box} my={4}>
+        <Typography display='inline'variant="h3" gutterBottom>Watts the Matter?</Typography>
         <TextField
           id="outlined-simple-start-adornment"
           variant="outlined"
           label="FTP"
           value={ftp}
-          onChange={e => setFtp(e.target.value, console.log('set fired'))}
-          InputProps={{
-            startAdornment: <InputAdornment position="start">Ben</InputAdornment>,
-          }}
+          onChange={e => setFtp(e.target.value)}
         />
-        <Button variant="outlined" color="primary" onClick={handleShowGrid(showGrid)}>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={handleShowGrid(showGrid)}
+        >
           Get Zones
         </Button>
         <Button
+          className={classes.resetButton}
           variant="outlined"
           color="primary"
           onClick={handleReset(!showGrid)}
@@ -79,6 +89,7 @@ export default function Index() {
             {finalResults}
           </Grid>
         </div>
+        <ZoneDataGrid />
       </Box>
     </Container>
   );
