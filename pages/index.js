@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
+import React, {useState} from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import { calculateZones } from 'training-zone-calculator';
-import { makeStyles } from '@material-ui/core/styles';
+import {calculateZones} from 'training-zone-calculator';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
+import {useStylesIndex} from './muiStyles';
 import ZoneDataGrid from './zoneDataGrid';
 
 export default function Index() {
@@ -17,36 +16,21 @@ export default function Index() {
   const [ ftp, setFtp ] = useState('');
   const [ showGrid, setShowGrid ] = useState(false);
 
-  /** Material UI styles */
-  const useStyles = makeStyles(theme => ({
-    box: {
-      marginTop: 0
-    },
-    root: {
-      flexGrow: 1,
-      background: '#333'
-    },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
-      background: '#98B0B9',
-    },
-    resetButton: {
-      marginTop: 25,
-      marginBottom: 50
-    }
-  }));
-  const classes = useStyles();
+  /** import styles for mui components */
+  const classes = useStylesIndex();
 
   /** Logic and Handlers */
   let finalResults;
   if (ftp > 0) {
     finalResults = showGrid ? calculateZones(ftp).map((zone, index) => (
-      <Grid key={index} item xs={4}>
-        <Paper className={classes.paper}>{zone}</Paper>
-      </Grid>
-    )) : null
+      <>
+        <Grid key={index} item xs={12}>
+          {(index % 2 === 0) && <Paper className={classes.paper}>{`Zone ${index + 1}`}</Paper>}        </Grid>
+        <Grid key={index} item xs={6}>
+          <Paper className={classes.paper}>{zone}</Paper>
+        </Grid>
+      </>
+    )) : null;
   }
 
   const handleShowGrid = showGrid => event => {
@@ -61,8 +45,15 @@ export default function Index() {
   return (
     <Container className={classes.root} maxWidth="sm">
       <Box className={classes.box} my={4}>
-        <Typography display='inline'variant="h3" gutterBottom>Watts the Matter?</Typography>
+        <Typography
+          display='inline'
+          variant="h3"
+          gutterBottom
+        >
+          Watts the Matter?
+        </Typography>
         <TextField
+          className={classes.textField}
           id="outlined-simple-start-adornment"
           variant="outlined"
           label="FTP"
@@ -70,6 +61,7 @@ export default function Index() {
           onChange={e => setFtp(e.target.value)}
         />
         <Button
+          className={classes.getZonesButton}
           variant="outlined"
           color="primary"
           onClick={handleShowGrid(showGrid)}
