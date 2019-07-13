@@ -45,13 +45,16 @@ export default function Index() {
   return (
     <Container className={classes.root} maxWidth="sm">
       <Box className={classes.box} my={4}>
-        <Typography
-          display='inline'
-          variant="h3"
-          gutterBottom
-        >
-          Watts the Matter?
-        </Typography>
+        <Paper className={classes.titleContainer}>
+          <Typography
+              className={classes.title}
+              display='inline'
+              variant="h4"
+              gutterBottom
+            >
+            Watts the Matter?
+          </Typography>
+        </Paper>
         <TextField
           className={classes.textField}
           id="outlined-simple-start-adornment"
