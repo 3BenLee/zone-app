@@ -7,25 +7,32 @@ export const useStylesIndex = makeStyles(theme => ({
   },
   root: {
     flexGrow: 1,
-    background: '#A9A9A9',
+    background: '#B8D8D8',
     overflow: 'hidden'
   },
-  paper: {
+  zonePaper: {
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-    background: '#98B0B9',
+    background: '#7A9E9F',
+  },
+  zoneRangePaper: {
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    background: '#EEF5DB',
   },
   title: {
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: 24,
     marginBottom: 24,
-    color: '#ffda79'
+    color: '#FE5F55'
   },
   textField: {
     background: '##cc8e35',
     marginLeft: 16,
+    borderColor: 'red !important'
   },
   getZonesButton: {
     display: 'block',
@@ -38,7 +45,7 @@ export const useStylesIndex = makeStyles(theme => ({
     marginLeft: 16,
   },
   titleContainer: {
-    backgroundColor: '#227093',
+    backgroundColor: '#EEF5DB',
     textAlign: 'center',
     marginTop: 20,
     marginBottom: 40

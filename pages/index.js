@@ -5,10 +5,12 @@ import {calculateZones} from 'training-zone-calculator';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import {useStylesIndex} from './muiStyles';
 import ZoneDataGrid from './zoneDataGrid';
+import { style } from '@material-ui/system';
 
 export default function Index() {
 
@@ -24,11 +26,20 @@ export default function Index() {
   if (ftp > 0) {
     finalResults = showGrid ? calculateZones(ftp).map((zone, index) => (
       <>
-        <Grid key={index} item xs={12}>
-          {(index % 2 === 0) && <Paper className={classes.paper}>{`Zone ${index + 1}`}</Paper>}        </Grid>
-        <Grid key={index} item xs={6}>
-          <Paper className={classes.paper}>{zone}</Paper>
-        </Grid>
+        <Grow in={showGrid}
+          style={{ transformOrigin: '0 0 0' }}
+          {...(showGrid ? { timeout: 1000 } : {})}>
+          <Grid className={style.Grid} key={`${index}${Math.random()}`} item xs={12}>
+            {(index % 2 === 0) && <Paper className={classes.zonePaper}>{`Zone ${index + 1}`}</Paper>}
+          </Grid>
+        </Grow>
+        <Grow in={showGrid}
+          style={{ transformOrigin: '0 0 0' }}
+          {...(showGrid ? { timeout: 1300 } : {})}>
+          <Grid className={style.Grid} key={index} item xs={4}>
+            <Paper className={classes.zoneRangePaper}>{zone}</Paper>
+          </Grid>
+        </Grow>
       </>
     )) : null;
   }
@@ -41,6 +52,10 @@ export default function Index() {
     setShowGrid(!showGrid);
     setFtp('');
   }
+
+  // const inputProps = {
+
+  // }
 
   return (
     <Container className={classes.root} maxWidth="sm">
@@ -60,6 +75,7 @@ export default function Index() {
           id="outlined-simple-start-adornment"
           variant="outlined"
           label="FTP"
+          inputProps={{borderColor: 'red'}}
           value={ftp}
           onChange={e => setFtp(e.target.value)}
         />
