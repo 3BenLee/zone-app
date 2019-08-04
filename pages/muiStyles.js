@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { red } from '@material-ui/core/colors';
 
 /** Index Styles */
 export const useStylesIndex = makeStyles(theme => ({
@@ -30,9 +31,14 @@ export const useStylesIndex = makeStyles(theme => ({
     color: '#FE5F55'
   },
   textField: {
-    background: '##cc8e35',
     marginLeft: 16,
-    borderColor: 'red !important'
+    [`& fieldset`]: {
+      borderColor: 'red !important',
+    }
+  },
+  input: {
+    // border: '1px solid red',
+    borderRadius: 4
   },
   getZonesButton: {
     display: 'block',

@@ -22,27 +22,26 @@ export default function Index() {
   const classes = useStylesIndex();
 
   /** Logic and Handlers */
-  let finalResults;
-  if (ftp > 0) {
-    finalResults = showGrid ? calculateZones(ftp).map((zone, index) => (
+  const muiGrowProps = {
+    in: showGrid,
+    style: {transformOrigin: '0 0 0'}
+  }
+
+  const finalResults = ftp && ftp > 0 && showGrid &&
+    calculateZones(ftp).map((zone, index) => (
       <>
-        <Grow in={showGrid}
-          style={{ transformOrigin: '0 0 0' }}
-          {...(showGrid ? { timeout: 1000 } : {})}>
+        <Grow {...muiGrowProps} {...(showGrid ? { timeout: 1000 } : {})}>
           <Grid className={style.Grid} key={`${index}${Math.random()}`} item xs={12}>
             {(index % 2 === 0) && <Paper className={classes.zonePaper}>{`Zone ${index + 1}`}</Paper>}
           </Grid>
         </Grow>
-        <Grow in={showGrid}
-          style={{ transformOrigin: '0 0 0' }}
-          {...(showGrid ? { timeout: 1300 } : {})}>
+        <Grow {...muiGrowProps} {...(showGrid ? { timeout: 1300 } : {})}>
           <Grid className={style.Grid} key={index} item xs={4}>
             <Paper className={classes.zoneRangePaper}>{zone}</Paper>
           </Grid>
         </Grow>
       </>
-    )) : null;
-  }
+    ))
 
   const handleShowGrid = showGrid => event => {
     setShowGrid(!showGrid);
@@ -52,10 +51,6 @@ export default function Index() {
     setShowGrid(!showGrid);
     setFtp('');
   }
-
-  // const inputProps = {
-
-  // }
 
   return (
     <Container className={classes.root} maxWidth="sm">
@@ -75,7 +70,7 @@ export default function Index() {
           id="outlined-simple-start-adornment"
           variant="outlined"
           label="FTP"
-          inputProps={{borderColor: 'red'}}
+          inputProps={{className: classes.input}}
           value={ftp}
           onChange={e => setFtp(e.target.value)}
         />
